@@ -1,0 +1,62 @@
+#include<stdio.h>
+struct poly
+	{
+	int coef;
+	int exp;
+	struct poly *next;
+	}
+void attachaft(int x,int y,node *t1)
+	{
+	node *temp,*temp1;
+	temp=(node*)malloc(sizeof(node));
+	temp1=t1->next;
+	t1->next=temp;
+	temp->next=temp1;
+	temp->coef=x;
+	temp->exp=y;
+	}
+void polymul(node *a, node *b)
+	{
+	node *p,*q,*d,*c,*k,*t1;
+	p=a; q=b;
+	int x,y,sum;
+	c=(node*)malloc(sizeof(node));
+	d=c->next;
+	for(;p!=NULL;p=p->next)
+		{
+		q=b;
+		for(;q!=NULL;q=q->next)
+			{
+			x=p->coef*q->coef;
+			y=p->exp+q->exp;
+			d=c->next;
+			for(;d!=NULL;d=d->next)
+				{
+				if(d->exp>y)
+					{
+					t1=d;
+					d=d->next;
+					continue;
+					}
+				else if(d->exp<y)
+					{
+					attachaft(x,y,t1);
+					break;
+					}
+				else
+					{
+					sum=d->coef+x;
+					if(sum!=0)
+						{
+						d->coef=sum;
+						break;
+						}
+					}
+				}
+			}
+		}
+	k=c;
+	d=c;
+	c=c->next;
+	free(k);
+	}
